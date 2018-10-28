@@ -1,14 +1,29 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 
-import { AppComponent } from './app.component';
+// components
+import {
+  AppComponent,
+  ChartComponent,
+  ChartWrapperComponent
+} from './components';
+
+// imports
+import { ChartModule } from 'angular-highcharts';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ChartComponent,
+    ChartWrapperComponent
   ],
   imports: [
-    BrowserModule
+    FormsModule,
+    ChartModule,
+    BrowserModule,
+    NgSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]
