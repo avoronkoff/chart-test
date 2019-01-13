@@ -4,7 +4,7 @@ import {
   EventEmitter,
   Input,
   OnChanges,
-  OnInit, Output,
+  Output,
   SimpleChanges
 } from '@angular/core';
 
@@ -17,7 +17,7 @@ import { ChartCompany, LineChart, ChartSeries } from '../../models';
   styleUrls: ['./chart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChartComponent implements OnInit, OnChanges {
+export class ChartComponent implements OnChanges {
   @Input() companies: ChartCompany[];
   @Input() selected: ChartCompany;
   @Output() onItemSelected = new EventEmitter();
@@ -26,35 +26,24 @@ export class ChartComponent implements OnInit, OnChanges {
   public monthValue: number = 0;
   public totalValue: number = 0;
 
-  ngOnInit() {
-    this.setSeriesChart(this.companies);
-  }
-
   ngOnChanges(changes: SimpleChanges) {
-    this.setSelectedCompany(changes);
-    this.setCompanies(changes);
+    this.setValues(changes);
   }
 
   public select(): void {
     this.onItemSelected.emit(this.selected);
   }
 
-  private setSelectedCompany(changes: SimpleChanges): void {
-    if (changes.selected && !changes.selected.firstChange) {
-      this.selected = changes.selected.currentValue
-    }
-  }
-
-  private setCompanies(changes: SimpleChanges): void {
-    if (!changes.companies.firstChange) {
-      this.setSeriesChart(changes.companies.currentValue);
-    }
+  private setValues(changes: SimpleChanges): void {
+    changes.selected && (this.selected = changes.selected.currentValue);
+    changes.companies && this.setSeriesChart(changes.companies.currentValue);
   }
 
   private setSeriesChart(list: ChartCompany[]): void {
     this.seriesChart = list.map(company => {
       this.monthValue += company.monthBalance;
       this.totalValue += company.balance;
+
       return new ChartSeries(company);
     });
     this.chart = new LineChart(this.seriesChart);

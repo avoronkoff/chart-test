@@ -15,7 +15,7 @@ export interface ChartCompany {
   id: number;
   name: string;
   category: string;
-  weekStats: Week,
+  weekStats: Week;
   balance: number;
   monthBalance: number;
 }

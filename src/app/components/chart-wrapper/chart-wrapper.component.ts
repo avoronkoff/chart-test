@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/internal/Subject';
 import { takeUntil } from 'rxjs/operators';
 
@@ -13,7 +13,7 @@ import {
   CompanyChart,
   DROP_LIST_COMPANIES,
   Filter
-} from '../../models'
+} from '../../models';
 
 @Component({
   selector: 'app-chart-wrapper',
@@ -21,21 +21,20 @@ import {
   styleUrls: ['./chart-wrapper.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChartWrapperComponent implements OnInit, OnDestroy {
+export class ChartWrapperComponent implements OnDestroy {
   public companies: ChartCompany[];
   public categories: string[] = categoriesList;
   public originCompanies: ChartCompany[];
   public dropListCompanies: Company[] = DROP_LIST_COMPANIES;
   public filter = new Filter();
   public selectedCompany: ChartCompany;
+
   private allOcc: string = 'All occurrences';
   private allCat: string = 'All categories';
   private destroy: Subject<void> = new Subject<void>();
 
   constructor(private chartService: ChartService,
-              private cdr: ChangeDetectorRef) {}
-
-  ngOnInit() {
+              private cdr: ChangeDetectorRef) {
     this.getChartData();
   }
 
@@ -49,7 +48,7 @@ export class ChartWrapperComponent implements OnInit, OnDestroy {
     console.log(company.id);
   }
 
-  public onChangeCategory(): void {
+  public onChange(): void {
     this.filterByObject();
     this.setCurrentCompany();
     this.cdr.detectChanges();
@@ -57,9 +56,7 @@ export class ChartWrapperComponent implements OnInit, OnDestroy {
 
   private filterByObject(): void {
     this.companies = this.originCompanies.filter(item =>
-      Object.keys(this.filter).every(key => {
-        return this.isDefaultValues(key) ? item[key] === this.filter[key] : true;
-      })
+        Object.keys(this.filter).every(key => this.isDefaultValues(key) ? (item[key] === this.filter[key]) : true)
     );
   }
 
@@ -68,7 +65,7 @@ export class ChartWrapperComponent implements OnInit, OnDestroy {
   }
 
   private isDefaultValues(key: string): boolean {
-    return this.filter[key] !== this.allOcc && this.filter[key] !== this.allCat;
+    return (this.filter[key] !== this.allOcc) && (this.filter[key] !== this.allCat);
   }
 
   private getChartData(): void {
