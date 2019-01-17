@@ -7,7 +7,7 @@ import { ChartService } from '@service';
 
 // models
 import {
-  categoriesList,
+  CATEGORY_LIST,
   ChartCompany,
   Company,
   CompanyChart,
@@ -23,7 +23,7 @@ import {
 })
 export class ChartWrapperComponent implements OnDestroy {
   public companies: ChartCompany[];
-  public categories: string[] = categoriesList;
+  public categories: string[] = CATEGORY_LIST;
   public originCompanies: ChartCompany[];
   public dropListCompanies: Company[] = DROP_LIST_COMPANIES;
   public filter = new Filter();
