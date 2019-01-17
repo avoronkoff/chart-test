@@ -3,7 +3,7 @@ import { Subject } from 'rxjs/internal/Subject';
 import { takeUntil } from 'rxjs/operators';
 
 // services
-import { ChartService } from '../../services';
+import { ChartService } from '@service';
 
 // models
 import {
@@ -13,7 +13,7 @@ import {
   CompanyChart,
   DROP_LIST_COMPANIES,
   Filter
-} from '../../models';
+} from '@models';
 
 @Component({
   selector: 'app-chart-wrapper',
@@ -38,10 +38,8 @@ export class ChartWrapperComponent implements OnDestroy {
     this.getChartData();
   }
 
-  ngOnDestroy() {
-    this.destroy.next();
+  ngOnDestroy(): void {
     this.destroy.complete();
-    this.destroy.unsubscribe();
   }
 
   public selectedItem(company: ChartCompany): void {
@@ -61,7 +59,7 @@ export class ChartWrapperComponent implements OnDestroy {
   }
 
   private setCurrentCompany(): void {
-    this.selectedCompany = this.filter.name !== this.allOcc ? this.companies[0] : null;
+    this.selectedCompany = (this.filter.name !== this.allOcc) ? this.companies[0] : null;
   }
 
   private isDefaultValues(key: string): boolean {

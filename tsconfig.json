@@ -6,6 +6,7 @@
     "sourceMap": true,
     "declaration": false,
     "module": "es2015",
+    "noImplicitAny": false,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -16,6 +17,11 @@
     "lib": [
       "es2017",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@models": ["src/app/models"],
+      "@components": ["src/app/components"],
+      "@service": ["src/app/services"]
+    }
   }
 }

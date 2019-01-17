@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 
 // models
-import { ChartCompany, LineChart, ChartSeries } from '../../models';
+import { ChartCompany, LineChart, ChartSeries } from '@models';
 
 @Component({
   selector: 'app-chart',
@@ -21,12 +21,13 @@ export class ChartComponent implements OnChanges {
   @Input() companies: ChartCompany[];
   @Input() selected: ChartCompany;
   @Output() onItemSelected = new EventEmitter();
+
   public chart: LineChart;
   public seriesChart: ChartSeries[];
   public monthValue: number = 0;
   public totalValue: number = 0;
 
-  ngOnChanges(changes: SimpleChanges) {
+  public ngOnChanges(changes: SimpleChanges): void {
     this.setValues(changes);
   }
 

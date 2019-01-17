@@ -8,7 +8,7 @@ import {
   AppComponent,
   ChartComponent,
   ChartWrapperComponent
-} from './components';
+} from '@components';
 
 // imports
 import { ChartModule } from 'angular-highcharts';

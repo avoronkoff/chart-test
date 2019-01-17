@@ -1,4 +1,4 @@
-import { ChartCompany, Company, Week } from './chart.interface';
+import { ChartCompany, Company, Week } from '@models';
 
 export const CHART_DATA = {
   companies: [
