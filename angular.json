@@ -128,7 +128,13 @@
   "defaultProject": "app-chart",
   "schematics": {
     "@schematics/angular:component": {
-      "styleext": "scss"
+      "styleext": "scss",
+      "changeDetection": "OnPush",
+      "spec": false
+    },
+    "@schematics/angular:directive": {
+      "changeDetection": "OnPush",
+      "spec": false
     }
   }
 }
