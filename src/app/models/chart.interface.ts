@@ -1,7 +1,3 @@
-export interface ChartData {
-  companies: Company[];
-}
-
 export interface Company extends BaseCompany {
   type: string;
   revenuePerWeek: Week;
@@ -29,4 +25,9 @@ export interface Week {
 export interface BaseCompany {
   id: number;
   name: string;
+}
+
+export interface ChartForm {
+  name: string;
+  category: string;
 }

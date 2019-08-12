@@ -28,7 +28,12 @@ export class ChartSeries {
   }
 }
 
-export class Filter {
-  public category: string = 'All categories';
-  public name: string = 'All occurrences';
+export class TotalValues {
+  public monthValue: number = 0;
+  public totalValue: number = 0;
+
+  public increment(data: ChartCompany): void {
+    this.monthValue += data.monthBalance;
+    this.totalValue += data.balance;
+  }
 }

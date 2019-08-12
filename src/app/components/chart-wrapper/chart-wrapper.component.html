@@ -1,24 +1,16 @@
 <div class="container">
 
-  <div class="d-flex justify-content-between">
-    <div class="w-25">
-      <ng-select [items]="categories"
-                 (change)="onChange()"
-                 [(ngModel)]="filter.category"
-                 [clearable]="false">
-      </ng-select>
-    </div>
+  <form [formGroup]="form">
+    <div class="d-flex justify-content-between">
+      <div class="w-25">
+        <ng-select [items]="categories$ | async" formControlName="category" [clearable]="false"></ng-select>
+      </div>
 
-    <div class="w-25">
-      <ng-select [items]="dropListCompanies"
-                 bindLabel="name"
-                 bindValue="name"
-                 (change)="onChange()"
-                 [(ngModel)]="filter.name"
-                 [clearable]="false">
-      </ng-select>
+      <div class="w-25">
+        <ng-select [items]="companiesList$ | async" bindLabel="name" bindValue="name" formControlName="name" [clearable]="false"></ng-select>
+      </div>
     </div>
-  </div>
+  </form>
 
-  <app-chart [companies]="companies" [selected]="selectedCompany" (onItemSelected)="selectedItem($event)"></app-chart>
+  <app-chart [companies]="companies$ | async" [selected]="selectedCompany"></app-chart>
 </div>

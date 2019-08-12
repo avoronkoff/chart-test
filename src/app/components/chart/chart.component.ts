@@ -1,15 +1,15 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   Input,
   OnChanges,
-  Output,
   SimpleChanges
 } from '@angular/core';
+import { map, tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 
 // models
-import { ChartCompany, LineChart, ChartSeries } from '@models';
+import { ChartCompany, LineChart, ChartSeries, TotalValues } from '@models';
 
 @Component({
   selector: 'app-chart',
@@ -20,34 +20,29 @@ import { ChartCompany, LineChart, ChartSeries } from '@models';
 export class ChartComponent implements OnChanges {
   @Input() companies: ChartCompany[];
   @Input() selected: ChartCompany;
-  @Output() onItemSelected = new EventEmitter();
 
   public chart: LineChart;
-  public seriesChart: ChartSeries[];
-  public monthValue: number = 0;
-  public totalValue: number = 0;
+  public seriesChart$: Observable<ChartSeries[]>;
+  public totalValues = new TotalValues();
 
   public ngOnChanges(changes: SimpleChanges): void {
-    this.setValues(changes);
+    changes.selected && (this.selected = changes.selected.currentValue);
+    changes.companies && this.updateChart(changes.companies.currentValue);
   }
 
   public select(): void {
-    this.onItemSelected.emit(this.selected);
+    console.log(this.selected.id);
   }
 
-  private setValues(changes: SimpleChanges): void {
-    changes.selected && (this.selected = changes.selected.currentValue);
-    changes.companies && this.setSeriesChart(changes.companies.currentValue);
-  }
-
-  private setSeriesChart(list: ChartCompany[]): void {
-    this.seriesChart = list.map(company => {
-      this.monthValue += company.monthBalance;
-      this.totalValue += company.balance;
-
-      return new ChartSeries(company);
-    });
-    this.chart = new LineChart(this.seriesChart);
+  private updateChart(list: ChartCompany[]): void {
+    this.seriesChart$ = of(list)
+      .pipe(
+        map(data => data.map(v => {
+          this.totalValues.increment(v);
+          return new ChartSeries(v);
+        })),
+        tap(chart => this.chart = new LineChart(chart))
+      );
   }
 
 }
